@@ -10,9 +10,7 @@
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "passwordPlaceholder": "Ingresa tu contraseña",
     "signingIn": "Iniciando sesión...",
-    "signIn": "Iniciar sesión en",
-    "noAccount": "¿No tienes una cuenta?",
-    "createAccount": "Crear cuenta"
+    "signIn": "Iniciar sesión en"
   },
   "Sidebar": {
     "title": "Plantilla CRM para WhatsApp",
