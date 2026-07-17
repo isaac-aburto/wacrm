@@ -1,19 +1,29 @@
 import { getRequestConfig } from 'next-intl/server';
+import type { AbstractIntlMessages } from 'next-intl';
+import { cookies } from 'next/headers';
+
+import {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  isAppLocale,
+  type AppLocale,
+} from './config';
+
+const messageLoaders: Record<
+  AppLocale,
+  () => Promise<{ default: AbstractIntlMessages }>
+> = {
+  es: () => import('../../messages/es.json'),
+  en: () => import('../../messages/en.json'),
+};
 
 export default getRequestConfig(async () => {
-  // Read the locale from the environment, defaulting to 'en'
-  const locale = process.env.NEXT_PUBLIC_APP_LOCALE || 'en';
-
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    // Fallback to English if the dictionary for the requested locale doesn't exist yet
-    messages = (await import(`../../messages/en.json`)).default;
-  }
+  const cookieLocale = (await cookies()).get(LOCALE_COOKIE)?.value;
+  const locale = isAppLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+  const messages = (await messageLoaders[locale]()).default;
 
   return {
     locale,
-    messages
+    messages,
   };
 });

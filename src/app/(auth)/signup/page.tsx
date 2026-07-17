@@ -14,7 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MessageSquare, CheckCircle, UsersRound } from "lucide-react";
+import { CheckCircle, UsersRound } from "lucide-react";
+import { BrandLogo } from "@/components/brand-logo";
 
 // `useSearchParams` opts the component out of static prerendering
 // unless wrapped in Suspense — same pattern as /login.
@@ -94,6 +95,7 @@ function SignupPageInner() {
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <Card className="w-full max-w-md border-border bg-card">
           <CardHeader className="items-center text-center">
+            <BrandLogo className="mb-3 h-12 w-48" />
             <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <CheckCircle className="h-6 w-6 text-primary" />
             </div>
@@ -131,13 +133,12 @@ function SignupPageInner() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader className="items-center text-center">
-          <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-            {inviteToken ? (
+          <BrandLogo className="mb-3 h-12 w-48" />
+          {inviteToken ? (
+            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
               <UsersRound className="h-6 w-6 text-primary" />
-            ) : (
-              <MessageSquare className="h-6 w-6 text-primary" />
-            )}
-          </div>
+            </div>
+          ) : null}
           <CardTitle className="text-xl text-foreground">
             {inviteToken ? "Create account & join" : "Create account"}
           </CardTitle>

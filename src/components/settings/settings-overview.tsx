@@ -2,13 +2,13 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { ChevronRight, Loader2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
-import { THEMES } from '@/lib/themes';
 import { CURRENCIES } from '@/lib/currency';
+import { APP_LOCALES, type AppLocale } from '@/i18n/config';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -39,6 +39,7 @@ export function SettingsOverview({
   const { user, profile, accountId, accountRole, defaultCurrency, canManageMembers } =
     useAuth();
   const { mode, theme } = useTheme();
+  const locale = useLocale() as AppLocale;
   const t = useTranslations('Settings.overview');
   const tRoles = useTranslations('roles');
   const tSections = useTranslations('Settings.sections');
@@ -51,12 +52,12 @@ export function SettingsOverview({
   // from blanking the rest of the landing.
   const [whatsapp, setWhatsapp] = useState<WhatsAppStatus | null>(null);
   const [whatsappLoading, setWhatsappLoading] = useState(true);
+  const userId = user?.id;
 
   useEffect(() => {
-    if (!user || !accountId) return;
+    if (!userId || !accountId) return;
     let cancelled = false;
     const supabase = createClient();
-    const userId = user.id;
     const acctId = accountId;
 
     // Cheap counts — resolve fast, render immediately.
@@ -139,7 +140,7 @@ export function SettingsOverview({
     return () => {
       cancelled = true;
     };
-  }, [user?.id, accountId, canManageMembers]);
+  }, [userId, accountId, canManageMembers]);
 
   const displayName = profile?.full_name || profile?.email || t('yourAccount');
   const initial = (profile?.full_name || profile?.email || 'U').charAt(0).toUpperCase();
@@ -148,8 +149,9 @@ export function SettingsOverview({
 
   const currencyLabel =
     CURRENCIES.find((c) => c.code === defaultCurrency)?.label ?? defaultCurrency;
-  const themeName = THEMES.find((t) => t.id === theme)?.name ?? theme;
-  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const themeName = t(`appearance.themes.${theme}.name`);
+  const languageName =
+    APP_LOCALES.find((option) => option.id === locale)?.nativeName ?? locale;
 
   // Per-tile loading + subtitle. `null` counts render as a graceful
   // fallback so a single failed query never blanks a tile.
@@ -215,7 +217,15 @@ export function SettingsOverview({
     {
       section: 'appearance',
       loading: false,
-      subtitle: t('appearance', { mode: cap(mode), theme: themeName }),
+      subtitle: t('appearance', {
+        mode: t(`appearance.modeNames.${mode}`),
+        theme: themeName,
+      }),
+    },
+    {
+      section: 'language',
+      loading: false,
+      subtitle: t('language', { language: languageName }),
     },
   ];
 

@@ -8,12 +8,13 @@
  *
  * Adding a new theme is a two-step change:
  *   1. Append the new `html[data-theme="<id>"]` block in globals.css
- *      with every token from an existing theme (use violet as the
+ *      with every token from an existing theme (use copper as the
  *      shape reference).
  *   2. Add an entry below. The order here drives the picker grid.
  */
 
 export const THEME_IDS = [
+  "copper",
   "violet",
   "emerald",
   "cobalt",
@@ -23,7 +24,7 @@ export const THEME_IDS = [
 
 export type ThemeId = (typeof THEME_IDS)[number];
 
-export const DEFAULT_THEME: ThemeId = "violet";
+export const DEFAULT_THEME: ThemeId = "copper";
 
 export const STORAGE_KEY = "wacrm.theme";
 
@@ -37,7 +38,7 @@ export const STORAGE_KEY = "wacrm.theme";
  * opt-in eye-strain-friendly alternative.
  *
  * Persisted under its own localStorage key so it composes freely
- * with the accent choice (you can run Violet-light or Violet-dark).
+ * with the accent choice (you can run Copper-light or Copper-dark).
  */
 export const MODES = ["light", "dark"] as const;
 
@@ -67,6 +68,12 @@ export interface ThemeMeta {
 }
 
 export const THEMES: ReadonlyArray<ThemeMeta> = [
+  {
+    id: "copper",
+    name: "Copper",
+    tagline: "Warm, focused, and inspired by ember-lit dashboards.",
+    swatch: "oklch(0.72 0.16 58)",
+  },
   {
     id: "violet",
     name: "Violet",

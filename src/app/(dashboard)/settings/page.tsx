@@ -2,7 +2,7 @@
 
 import { useMemo, type ReactNode } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
@@ -11,6 +11,8 @@ import { SettingsOverview } from '@/components/settings/settings-overview';
 import { ProfileForm } from '@/components/settings/profile-form';
 import { SecurityPanel } from '@/components/settings/security-panel';
 import { AppearancePanel } from '@/components/settings/appearance-panel';
+import { LanguagePanel } from '@/components/settings/language-panel';
+import { APP_LOCALES, type AppLocale } from '@/i18n/config';
 import { WhatsAppConfig } from '@/components/settings/whatsapp-config';
 import { TemplateManager } from '@/components/settings/template-manager';
 import { QuickRepliesManager } from '@/components/settings/quick-replies-manager';
@@ -28,6 +30,7 @@ export default function SettingsPage() {
   const searchParams = useSearchParams();
   const { defaultCurrency } = useAuth();
   const { mode } = useTheme();
+  const locale = useLocale() as AppLocale;
   const t = useTranslations('Settings');
 
   // The URL (`?tab=`) is the single source of truth for the active
@@ -47,10 +50,12 @@ export default function SettingsPage() {
   // already in context.
   const hints: Partial<Record<SettingsSection, ReactNode>> = useMemo(
     () => ({
-      appearance: mode.charAt(0).toUpperCase() + mode.slice(1),
+      appearance: t(`appearance.modeNames.${mode}`),
+      language:
+        APP_LOCALES.find((option) => option.id === locale)?.nativeName ?? locale,
       deals: defaultCurrency,
     }),
-    [mode, defaultCurrency],
+    [mode, defaultCurrency, locale, t],
   );
 
   const panel: Record<SettingsSection, ReactNode> = {
@@ -58,6 +63,7 @@ export default function SettingsPage() {
     profile: <ProfileForm />,
     security: <SecurityPanel />,
     appearance: <AppearancePanel />,
+    language: <LanguagePanel />,
     whatsapp: <WhatsAppConfig />,
     templates: <TemplateManager />,
     'quick-replies': <QuickRepliesManager />,

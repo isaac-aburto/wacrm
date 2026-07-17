@@ -1214,6 +1214,7 @@
       "tagsCount": "{count} {count, plural, =1 {tag} other {tags}}",
       "fieldsCount": "{count} custom {count, plural, =1 {field} other {fields}}",
       "appearance": "{mode} mode · {theme} accent",
+      "language": "Interface language: {language}",
       "yourAccount": "Your account",
       "loading": "Loading…"
     },
@@ -1498,6 +1499,7 @@
       "profile": "Your profile",
       "security": "Login & security",
       "appearance": "Appearance",
+      "language": "Language",
       "whatsapp": "WhatsApp",
       "templates": "Templates",
       "fields": "Fields & tags",
@@ -1566,10 +1568,52 @@
       "title": "Appearance",
       "description": "Set the mode and accent colour used across the app. Saved to this device — try it, it changes live.",
       "mode": "Mode",
+      "modeNames": {
+        "light": "Light",
+        "dark": "Dark"
+      },
       "useMode": "Use {mode} mode",
       "active": "Active",
       "accentColor": "Accent color",
-      "useTheme": "Use {name} theme"
+      "useTheme": "Use {name} theme",
+      "themes": {
+        "copper": {
+          "name": "Copper",
+          "tagline": "Warm, focused, and inspired by ember-lit dashboards."
+        },
+        "violet": {
+          "name": "Violet",
+          "tagline": "The default — confident, slightly playful."
+        },
+        "emerald": {
+          "name": "Emerald",
+          "tagline": "Growth-coded, with a subtle nod to messaging."
+        },
+        "cobalt": {
+          "name": "Cobalt",
+          "tagline": "Clean B2B blue — calm and product-focused."
+        },
+        "amber": {
+          "name": "Amber",
+          "tagline": "Warm and friendly for small teams."
+        },
+        "rose": {
+          "name": "Rose",
+          "tagline": "Bold and modern for lifestyle brands."
+        }
+      }
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose the language used for navigation, forms, messages, and settings.",
+      "selectorLabel": "Interface language",
+      "active": "Active",
+      "changeError": "The language couldn't be changed. Please try again.",
+      "deviceHint": "Saved on this device. The change applies immediately across the CRM.",
+      "names": {
+        "es": "Spanish",
+        "en": "English"
+      }
     },
     "security": {
       "title": "Login & security",
